@@ -20,7 +20,7 @@ body {
   padding-top: 10px;
 }
 
-/* --- [변경] 헤더 레이아웃 (Mobile First) --- */
+/* --- 헤더 레이아웃 (Mobile First) --- */
 header {
   display: flex;
   flex-direction: column;
@@ -120,7 +120,7 @@ h1 {
   color: #3498db; /* 글자색 파랑 */
 }
 
-/* 오늘 날짜 (오타 수정: .data-text -> .date-text, #666) */
+/* 오늘 날짜 */
 .date-text {
   font-size: 1.1rem;
   color: #666;
@@ -143,27 +143,48 @@ h1 {
   text-align: center;
 }
 
+/* --- [Grid] 중앙 정렬 레이아웃 --- */
 .weather-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;                       /* Grid 사용 */
+  grid-template-columns: 1fr auto 1fr; /* 1 : 자동 : 1 비율 */
+  align-items: center;                 /* 세로 중앙 */
+  width: 100%;
   margin: 10px 0;
 }
 
-#currentTemp {
-  font-size: 4rem;
-  font-weight: 700;
-  margin-left: 10px;
+/* --- [수정] 아이콘 (마진 제거됨) --- */
+#weatherIcon {
+  justify-self: end;    /* 오른쪽으로 붙이기 */
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+  /* 마진 제거함 (숫자의 패딩과 균형을 맞추기 위해) */
+  
+  /* 아이콘 선명하게 */
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
 }
 
+/* --- [수정] 온도 숫자 (패딩으로 중심 이동) --- */
+#currentTemp {
+  justify-self: center; /* 정중앙 */
+  font-size: 4rem;
+  font-weight: 700;     /* 굵게 */
+  
+  padding-left: 15px;   /* 왼쪽 내부 여백 (아이콘과의 간격 + 시각적 보정) */
+  margin-left: 0;
+}
+
+/* --- [수정] 단위 버튼 (마진으로 간격 확보) --- */
 .unit-btn {
+  justify-self: start;  /* 왼쪽으로 붙이기 */
   font-size: 1rem;
   font-weight: bold;
   background: none;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 5px 8px;
-  margin-left: 10px;
+  margin-left: 25px;    /* 왼쪽 외부 여백 (숫자와의 간격) */
+  
   cursor: pointer;
 }
 
@@ -199,6 +220,16 @@ h1 {
   padding: 15px;
 }
 
+/* 5일 예보 아이콘 */
+.forecast-card img {
+  width: 70px;
+  height: 70px;
+  margin: 5px auto;
+  display: block;
+  /* 아이콘 선명하게 */
+  filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.1));
+}
+
 .forecast-card .temp {
   font-size: 1.1rem;
   font-weight: bold;
@@ -218,36 +249,14 @@ h1 {
   display: none;
 }
 
-/* --- [추가] 아이콘 디자인 업그레이드 --- */
-
-/* 현재 날씨 아이콘 */
-#weatherIcon {
-  width: 100px;
-  height: 100px;
-  padding: 5px;
-  margin-right: 15px;
-  /* 아이콘 선명하게 */
-  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
-}
-
-/* 5일 예보 아이콘 */
-.forecast-card img {
-  width: 70px;
-  height: 70px;
-  margin: 5px auto;
-  display: block;
-  /* 아이콘 선명하게 */
-  filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.1));
-}
-
-/* 옷차림 추천! */
+/* 옷차림 추천 */
 .outfit-box {
-    background-color: #e3f2fd; /* 부드러운 하늘색 배경 */
-    color: #1565c0;            /* 진한 파란색 글씨 */
+    background-color: #e3f2fd;
+    color: #1565c0;
     padding: 12px 20px;
-    border-radius: 20px;       /* 둥글둥글하게 */
-    margin: 15px auto;         /* 위아래 간격 */
-    display: inline-block;     /* 글자 크기에 맞게 박스 조절 */
+    border-radius: 20px;
+    margin: 15px auto;
+    display: inline-block;
     font-size: 0.95rem;
     font-weight: 500;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
@@ -258,21 +267,21 @@ h1 {
     font-size: 1.2rem;
 }
 
-/* --- [추가] PC 화면 (가로 768px 이상) 레이아웃 --- */
+/* PC 화면 레이아웃 */
 @media (min-width: 768px) {
   header {
-    flex-direction: row; /* 가로 배치 */
-    justify-content: space-between; /* 양 끝 정렬 */
+    flex-direction: row;
+    justify-content: space-between;
     align-items: flex-start;
   }
 
   .header-right {
-    align-items: flex-end; /* 오른쪽 정렬 */
+    align-items: flex-end;
     width: auto;
   }
 
   .search-box {
-    width: 300px; /* 크기 고정 */
+    width: 300px;
     margin-bottom: 5px;
   }
   
