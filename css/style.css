@@ -132,7 +132,6 @@ h1 {
 .weather-card,
 .forecast-card {
   background: white;
-  font-weight: 300;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   padding: 25px;
@@ -153,7 +152,7 @@ h1 {
 
 #currentTemp {
   font-size: 4rem;
-  font-weight: 300;
+  font-weight: 700;
   margin-left: 10px;
 }
 
