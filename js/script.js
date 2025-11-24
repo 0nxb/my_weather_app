@@ -164,7 +164,7 @@ function displayWeather(data) {
   // 3. [아이콘 및 기본 정보]
   const iconUrl = getCustomIcon(weather[0].icon); 
   
-  document.querySelector('#currentTemp').textContent = `${Math.round(main.temp)}°`;
+  document.querySelector('#currentTemp').textContent = `${(main.temp.toFixed(1))}°`; // 소수점 1자리 까지 보여주기
   document.querySelector('#weatherIcon').src = iconUrl;
 
   // ---------------- [수정된 부분: 날씨 텍스트 번역] ----------------
@@ -174,6 +174,7 @@ function displayWeather(data) {
   if (weatherText === '실 비') weatherText = '이슬비';
   else if (weatherText === '튼구름') weatherText = '구름 조금';
   else if (weatherText === '온흐림') weatherText = '흐림';
+  //else if (weatherText === '') weatherText = ''; // 이상한 번역 찾으면 추가
   
   document.querySelector('#weatherIcon').alt = weatherText;
   document.querySelector('#weatherDesc').textContent = weatherText;
@@ -202,6 +203,7 @@ function displayForecast(data) {
 
   const dailyForecasts = data.list.filter(item => 
     item.dt_txt.includes("06:00:00")
+    // 06:00:00 -> 한국 기준 15:00
   );
 
   dailyForecasts.forEach(day => {
@@ -219,7 +221,7 @@ function displayForecast(data) {
     card.innerHTML = `
       <p style="font-weight: bold; margin-bottom: 5px;">${formattedDate}</p>
       <img src="${iconUrl}" alt="${day.weather[0].description}">
-      <p class="temp">${Math.round(day.main.temp)}°</p>
+      <p class="temp">${day.main.temp.toFixed(1)}°</p>
     `;
     
     forecastContainer.appendChild(card);
@@ -316,6 +318,7 @@ function getOutfitRecommendation(tempCelsius) {
   else return "이불 속에 쏘옥... ";
 }
 
+// Set Icon 
 function getCustomIcon(iconCode) {
   const baseUrl = "https://basmilius.github.io/weather-icons/production/fill/all/";
   let iconName = "not-available";
