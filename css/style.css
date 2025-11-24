@@ -1,4 +1,4 @@
-/* 기본 리셋 및 폰트 설정 */
+/* reset basic & set font */
 * {
   margin: 0;
   padding: 0;
@@ -12,7 +12,6 @@ body {
   line-height: 1.6;
 }
 
-/* 컨테이너 */
 .container {
   max-width: 900px;
   margin: 5px auto;
@@ -20,7 +19,7 @@ body {
   padding-top: 10px;
 }
 
-/* --- 헤더 레이아웃 (Mobile First) --- */
+/* header Layout */
 header {
   display: flex;
   flex-direction: column;
@@ -48,7 +47,7 @@ h1 {
 .search-box {
   position: relative;
   display: flex;
-  gap: 8px; /* 간격 조정 */
+  gap: 8px;
   width: 100%;
   max-width: 400px;
   margin-bottom: 5px;
@@ -56,7 +55,7 @@ h1 {
 }
 
 #cityInput {
-  flex-grow: 1; /* 남은 공간 채우기 */
+  flex-grow: 1;
   padding: 10px 15px;
   font-size: 1rem;
   border: 2px solid #ddd;
@@ -85,19 +84,17 @@ h1 {
   top: 110%;          /* 검색창 바로 아래 위치 */
   left: 0;
   width: 100%;        /* 검색창 너비와 똑같이 */
-  
   background: white;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* 그림자 진하게 */
   padding: 10px;
-  
   display: flex;
   flex-direction: column; /* 세로로 나열 */
   gap: 5px;
   z-index: 101;
 }
 
-/* 숨김 처리용 클래스 (JS에서 사용) */
+/* hide */
 .recent-searches.hidden {
   display: none;
 }
@@ -143,38 +140,34 @@ h1 {
   text-align: center;
 }
 
-/* --- [Grid] 중앙 정렬 레이아웃 --- */
+/* 중앙 정렬 */
 .weather-main {
-  display: grid;                       /* Grid 사용 */
+  display: grid;                      
   grid-template-columns: 1fr auto 1fr; /* 1 : 자동 : 1 비율 */
-  align-items: center;                 /* 세로 중앙 */
+  align-items: center;              
   width: 100%;
   margin: 10px 0;
 }
 
-/* --- [수정] 아이콘 (마진 제거됨) --- */
+/* ICON */
 #weatherIcon {
-  justify-self: end;    /* 오른쪽으로 붙이기 */
+  justify-self: end;
   width: 100px;
   height: 100px;
   padding: 5px;
-  /* 마진 제거함 (숫자의 패딩과 균형을 맞추기 위해) */
-  
-  /* 아이콘 선명하게 */
   filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
 }
 
-/* --- [수정] 온도 숫자 (패딩으로 중심 이동) --- */
+/* 온도 숫자 */
 #currentTemp {
-  justify-self: center; /* 정중앙 */
+  justify-self: center;
   font-size: 4rem;
-  font-weight: 700;     /* 굵게 */
-  
-  padding-left: 15px;   /* 왼쪽 내부 여백 (아이콘과의 간격 + 시각적 보정) */
+  font-weight: 700;   
+  padding-left: 15px;   
   margin-left: 0;
 }
 
-/* --- [수정] 단위 버튼 (마진으로 간격 확보) --- */
+/* 단위 버튼 */
 .unit-btn {
   justify-self: start;  /* 왼쪽으로 붙이기 */
   font-size: 1rem;
@@ -190,6 +183,7 @@ h1 {
 
 #weatherDesc {
   font-size: 1.25rem;
+  font-weight: 300;
   color: #555;
   text-transform: capitalize;
   margin-bottom: 15px;
@@ -226,7 +220,6 @@ h1 {
   height: 70px;
   margin: 5px auto;
   display: block;
-  /* 아이콘 선명하게 */
   filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.1));
 }
 
@@ -235,7 +228,7 @@ h1 {
   font-weight: bold;
 }
 
-/* 오류 메시지 */
+/* error msg */
 .error-message {
   text-align: center;
   color: #e74c3c;
