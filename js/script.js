@@ -55,7 +55,7 @@ document.addEventListener('click', (e) => {
 });
 
 // 3. 핵심 비즈니스 로직 (API 호출 - 보안 모드)
-// 검색 처리
+// 검색 처리 핸들러
 function handleSearch() {
   const city = cityInput.value.trim();
   if (city) {
@@ -67,8 +67,9 @@ function handleSearch() {
   }
 }
 
-
-// * [보안 모드] 도시 이름으로 날씨 가져오기 (서버 경유)
+/**
+ * [보안 모드] 도시 이름으로 날씨 가져오기 (서버 경유)
+ */
 async function getWeather(city) {
   // UI 초기화
   handleError(); 
@@ -76,7 +77,7 @@ async function getWeather(city) {
   forecastSection.classList.remove('hidden');
 
   try {
-    // 직접 호출하지 않고 /api/weather로 요청 보냄
+    // 직접 호출하지 않고 /api/weather로 요청 보내기
     const response = await fetch(`/api/weather?city=${city}&units=${currentUnit}`);
     const data = await response.json();
 
@@ -84,7 +85,7 @@ async function getWeather(city) {
       throw new Error(data.error || "도시를 찾을 수 없습니다.");
     }
 
-    // 데이터 성공 처리
+    // 성공 데이터 처리
     const prettyCityName = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
     lastSearchedCity = prettyCityName;
     
@@ -165,17 +166,28 @@ function displayWeather(data) {
   
   document.querySelector('#currentTemp').textContent = `${Math.round(main.temp)}°`;
   document.querySelector('#weatherIcon').src = iconUrl;
-  document.querySelector('#weatherIcon').alt = weather[0].description;
-  document.querySelector('#weatherDesc').textContent = weather[0].description;
+
+  // ---------------- [수정된 부분: 날씨 텍스트 번역] ----------------
+  let weatherText = weather[0].description;
+  
+  // 어색한 번역 수정
+  if (weatherText === '실 비') weatherText = '이슬비';
+  else if (weatherText === '튼구름') weatherText = '구름 조금';
+  else if (weatherText === '온흐림') weatherText = '흐림';
+  
+  document.querySelector('#weatherIcon').alt = weatherText;
+  document.querySelector('#weatherDesc').textContent = weatherText;
+  // -------------------------------------------------------------
+
   document.querySelector('#humidity').textContent = main.humidity;
   document.querySelector('#windSpeed').textContent = wind.speed;
 
-  // 온도 단위 표시
+  // 4. [온도 단위 표시] - 현재 단위(C/F)를 명확히 표시
   if (currentUnit === 'metric') {
-    unitToggleBtn.textContent = '°C';
+    unitToggleBtn.textContent = '°C'; // 현재 섭씨면 '°C' 표시
     document.querySelector('#windSpeed').nextSibling.textContent = ' m/s';
   } else {
-    unitToggleBtn.textContent = '°F';
+    unitToggleBtn.textContent = '°F'; // 현재 화씨면 '°F' 표시
     document.querySelector('#windSpeed').nextSibling.textContent = ' mph';
   }
 
