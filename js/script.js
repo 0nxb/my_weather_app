@@ -303,7 +303,7 @@ function getOutfitRecommendation(tempCelsius) {
   if (tempCelsius >= 12) return "자켓, 가디건, 야상에 청바지가 딱이에요.";
   if (tempCelsius >= 9)  return "쌀쌀해요. 트렌치코트나 점퍼를 걸치세요.";
   if (tempCelsius >= 5)  return "추워요! 코트, 가죽자켓에 히트텍을 입으면 좋겠네요.";
-  return "이불 속에 쏘옥... ";
+  else return "이불 속에 쏘옥... ";
 }
 
 function getCustomIcon(iconCode) {
