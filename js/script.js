@@ -55,7 +55,7 @@ document.addEventListener('click', (e) => {
 });
 
 // 3. 핵심 비즈니스 로직 (API 호출 - 보안 모드)
-// 검색 처리 핸들러
+// 검색 처리
 function handleSearch() {
   const city = cityInput.value.trim();
   if (city) {
@@ -67,9 +67,8 @@ function handleSearch() {
   }
 }
 
-/**
- * [보안 모드] 도시 이름으로 날씨 가져오기 (서버 경유)
- */
+
+// * [보안 모드] 도시 이름으로 날씨 가져오기 (서버 경유)
 async function getWeather(city) {
   // UI 초기화
   handleError(); 
@@ -77,7 +76,7 @@ async function getWeather(city) {
   forecastSection.classList.remove('hidden');
 
   try {
-    // 직접 호출하지 않고 /api/weather로 요청 ㅂ내기
+    // 직접 호출하지 않고 /api/weather로 요청 보냄
     const response = await fetch(`/api/weather?city=${city}&units=${currentUnit}`);
     const data = await response.json();
 
@@ -85,7 +84,7 @@ async function getWeather(city) {
       throw new Error(data.error || "도시를 찾을 수 없습니다.");
     }
 
-    // 성공 데이터 처리
+    // 데이터 성공 처리
     const prettyCityName = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
     lastSearchedCity = prettyCityName;
     
@@ -173,10 +172,10 @@ function displayWeather(data) {
 
   // 온도 단위 표시
   if (currentUnit === 'metric') {
-    unitToggleBtn.textContent = '°F';
+    unitToggleBtn.textContent = '°C';
     document.querySelector('#windSpeed').nextSibling.textContent = ' m/s';
   } else {
-    unitToggleBtn.textContent = '°C';
+    unitToggleBtn.textContent = '°F';
     document.querySelector('#windSpeed').nextSibling.textContent = ' mph';
   }
 
@@ -238,7 +237,6 @@ function displayRecentSearches() {
 }
 
 // 5. 유틸리티 및 헬퍼 함수
-
 function handleError(message = null) {
   if (message) {
     errorDisplay.textContent = message;

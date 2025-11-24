@@ -12,13 +12,13 @@ export default async function handler(request, response) {
   let weatherQuery = '';
   
   if (city) {
-    // 도시 이름으로 검색
+    // search city name
     weatherQuery = `q=${city}`;
   } else if (lat && lon) {
-    // 좌표(위도, 경도)로 검색
+    // 좌표로 검색
     weatherQuery = `lat=${lat}&lon=${lon}`;
   } else {
-    // 둘 다 없으면 에러 반환
+    // 둘 다 없을시 에러 반환
     return response.status(400).json({ error: 'City name or coordinates are required' });
   }
 
