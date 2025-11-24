@@ -67,6 +67,7 @@ const Utils = {
     return `${baseUrl}${name}.svg`;
   },
 
+  // 이상한 번역 바꾸기
   translateDesc(text) {
     const dict = {
       '실 비': '이슬비',
@@ -88,7 +89,7 @@ const Utils = {
     if (t >= 12) return '🌬️ 자켓, 야상, 간절기 코트! 스타킹도 신을 때예요.';
     if (t >= 9) return '🧣 꽤 쌀쌀해요. 트렌치코트나 도톰한 점퍼가 필요해요.';
     if (t >= 5) return '🥶 코트, 가죽자켓, 히트텍! 따뜻하게 입고 나가세요.';
-    return '☃️ 패딩 꺼내세요! 목도리, 장갑으로 꽁꽁 싸매야 해요.';
+    return '☃️ 이불 속으로...';
   },
 
   formatDate(timestamp) {
