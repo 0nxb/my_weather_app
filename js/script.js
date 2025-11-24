@@ -201,27 +201,59 @@ function displayWeather(data) {
 function displayForecast(data) {
   forecastContainer.innerHTML = ''; 
 
-  const dailyForecasts = data.list.filter(item => 
-    item.dt_txt.includes("06:00:00")
-    // 06:00:00 -> 한국 기준 15:00
-  );
+  // 1. 데이터를 날짜별로 그룹화 (최저/최고 기온 계산을 위해)
+  const dailyData = {};
 
-  dailyForecasts.forEach(day => {
+  data.list.forEach(item => {
+    // 날짜 문자열 추출 (예: "2024-11-25")
+    const date = item.dt_txt.split(' ')[0];
+
+    if (!dailyData[date]) {
+      // 새로운 날짜면 초기화
+      dailyData[date] = {
+        min: item.main.temp,
+        max: item.main.temp,
+        icon: item.weather[0].icon,
+        dt: item.dt
+      };
+    } else {
+      // 이미 있는 날짜면 최저값과 최고값을 비교해서 갱신
+      dailyData[date].min = Math.min(dailyData[date].min, item.main.temp);
+      dailyData[date].max = Math.max(dailyData[date].max, item.main.temp);
+      
+      // 아이콘은 낮 12시~3시(UTC 06:00) 데이터를 대표로 사용 (가장 맑고 활동적인 시간)
+      if (item.dt_txt.includes("06:00:00") || item.dt_txt.includes("09:00:00")) {
+         dailyData[date].icon = item.weather[0].icon;
+      }
+    }
+  });
+
+  // 2. 그룹화된 데이터를 날짜순으로 정렬
+  const sortedDates = Object.keys(dailyData).sort(); 
+
+  sortedDates.slice(0, 5).forEach(dateKey => {
+    const day = dailyData[dateKey];
     const date = new Date(day.dt * 1000);
     
+    // 날짜 포맷 (예: 11/25(화))
     const month = date.getMonth() + 1;
     const dayDate = date.getDate();
     const dayName = date.toLocaleDateString('ko-KR', { weekday: 'short' });
     const formattedDate = `${month}/${dayDate}(${dayName})`;
 
-    const iconUrl = getCustomIcon(day.weather[0].icon);
+    const iconUrl = getCustomIcon(day.icon);
 
     const card = document.createElement('div');
     card.className = 'forecast-card';
+  
     card.innerHTML = `
       <p style="font-weight: bold; margin-bottom: 5px;">${formattedDate}</p>
-      <img src="${iconUrl}" alt="${day.weather[0].description}">
-      <p class="temp">${day.main.temp.toFixed(1)}°</p>
+      <img src="${iconUrl}" alt="weather icon" style="width: 50px; height: 50px;">
+      <div class="temp-range" style="font-size: 0.95rem;">
+        <span style="color: #3b82f6; font-weight: bold;">${day.min.toFixed(1)}°</span>
+        <span style="color: #ccc; margin: 0 4px;">/</span>
+        <span style="color: #ef4444; font-weight: bold;">${day.max.toFixed(1)}°</span>
+      </div>
     `;
     
     forecastContainer.appendChild(card);
