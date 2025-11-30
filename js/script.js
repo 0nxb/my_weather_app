@@ -186,7 +186,7 @@ const UI = {
       title.textContent = '최근 검색어';
       title.style.cssText = 'font-size: 0.8rem; color: #888; margin: 5px 10px;';
       DOM.recentContainer.appendChild(title);
-      DOM.recentContainer.classList.remove('hidden');
+      //DOM.recentContainer.classList.remove('hidden');
     } else {
       DOM.recentContainer.classList.add('hidden');
     }
