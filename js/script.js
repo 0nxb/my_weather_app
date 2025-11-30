@@ -1,26 +1,13 @@
+// ============================================================
+// 1. DOM 요소 (초기화)
+// ============================================================
 const DOM = {
-  cityInput: document.querySelector('#cityInput'),
-  searchBtn: document.querySelector('#searchBtn'),
-  locationBtn: document.querySelector('#currentLocationBtn'),
-  recentContainer: document.querySelector('#recentSearches'),
-  errorDisplay: document.querySelector('#errorDisplay'),
-
-  currentSection: document.querySelector('#currentWeather'),
-  forecastSection: document.querySelector('#forecast'),
-  forecastContainer: document.querySelector('#forecastContainer'),
-
-  date: document.querySelector('#currentDate'),
-  cityName: document.querySelector('#cityName'),
-  icon: document.querySelector('#weatherIcon'),
-  temp: document.querySelector('#currentTemp'),
-  desc: document.querySelector('#weatherDesc'),
-  humidity: document.querySelector('#humidity'),
-  wind: document.querySelector('#windSpeed'),
-  windUnit: document.querySelector('#windUnit'),
-  unitBtn: document.querySelector('#unitToggleBtn'),
-
-  outfitText: document.querySelector('#outfitText'),
-  searchBox: document.querySelector('.search-box') // 클릭 감지 안정성 향상
+  // 쿼리는 App.setupDOM()에서 실행합니다.
+  cityInput: null, searchBtn: null, locationBtn: null, recentContainer: null,
+  errorDisplay: null, currentSection: null, forecastSection: null, 
+  forecastContainer: null, date: null, cityName: null, icon: null, 
+  temp: null, desc: null, humidity: null, wind: null, windUnit: null, 
+  unitBtn: null, outfitText: null, searchBox: null
 };
 
 // 2. STATE
@@ -67,7 +54,6 @@ const Utils = {
     return `${baseUrl}${name}.svg`;
   },
 
-  // 이상한 번역 바꾸기
   translateDesc(text) {
     const dict = {
       '실 비': '이슬비',
@@ -84,7 +70,7 @@ const Utils = {
 
     if (t >= 28) return '🥵 찜통더위! 민소매, 반바지, 린넨 소재가 살길.';
     if (t >= 23) return '☀️ 반팔, 얇은 셔츠, 반바지나 면바지가 딱 좋아요.';
-    if (t >= 20) return '👚 얇은 가디건이나 긴팔티, 면바지, 청바지 추천!';
+    if (t >= 20) return '👚 얇은 가디건이나 긴팔티, 청바지 추천!';
     if (t >= 17) return '🧥 얇은 니트, 맨투맨, 후드티에 겉옷을 챙기세요.';
     if (t >= 12) return '🌬️ 자켓, 야상, 간절기 코트! 스타킹도 신을 때예요.';
     if (t >= 9) return '🧣 꽤 쌀쌀해요. 트렌치코트나 도톰한 점퍼가 필요해요.';
@@ -100,7 +86,6 @@ const Utils = {
     return `${m}/${d}(${w})`;
   },
 
-  // 5일 예보 데이터 그룹화 (UI와 분리)
   groupForecast(list) {
     const daily = {};
 
@@ -160,8 +145,10 @@ const UI = {
     DOM.humidity.textContent = main.humidity;
     DOM.wind.textContent = wind.speed;
 
+    // windUnit이 누락되어 있었는데, DOM.wind.nextSibling으로 대체합니다.
     DOM.unitBtn.textContent = State.unit === 'metric' ? '°C' : '°F';
-    DOM.windUnit.textContent = State.unit === 'metric' ? ' m/s' : ' mph';
+    DOM.wind.nextSibling.textContent = State.unit === 'metric' ? ' m/s' : ' mph';
+
 
     DOM.outfitText.textContent = Utils.getOutfit(main.temp);
 
@@ -220,8 +207,34 @@ const UI = {
 // 6. APP
 const App = {
   init() {
+    this.setupDOM(); // DOM 요소를 찾습니다.
     this.bindEvents();
     this.loadStorage();
+  },
+
+  setupDOM() {
+    // Cannot set properties of null 오류 해결: DOM 로드 후 요소 찾기
+    DOM.cityInput = document.querySelector('#cityInput');
+    DOM.searchBtn = document.querySelector('#searchBtn');
+    DOM.locationBtn = document.querySelector('#currentLocationBtn');
+    DOM.recentContainer = document.querySelector('#recentSearches');
+    DOM.errorDisplay = document.querySelector('#errorDisplay');
+
+    DOM.currentSection = document.querySelector('#currentWeather');
+    DOM.forecastSection = document.querySelector('#forecast');
+    DOM.forecastContainer = document.querySelector('#forecastContainer');
+
+    DOM.date = document.querySelector('#currentDate');
+    DOM.cityName = document.querySelector('#cityName');
+    DOM.icon = document.querySelector('#weatherIcon');
+    DOM.temp = document.querySelector('#currentTemp');
+    DOM.desc = document.querySelector('#weatherDesc');
+    DOM.humidity = document.querySelector('#humidity');
+    DOM.wind = document.querySelector('#windSpeed');
+    DOM.unitBtn = document.querySelector('#unitToggleBtn');
+
+    DOM.outfitText = document.querySelector('#outfitText');
+    DOM.searchBox = document.querySelector('.search-box');
   },
 
   bindEvents() {
@@ -248,7 +261,8 @@ const App = {
 
     // 안정성 증가: searchBox 영역만 감지
     document.addEventListener('click', e => {
-      if (!DOM.searchBox.contains(e.target)) DOM.recentContainer.classList.add('hidden');
+      // DOM.searchBox가 null일 경우 대비
+      if (DOM.searchBox && !DOM.searchBox.contains(e.target)) DOM.recentContainer.classList.add('hidden');
     });
   },
 
@@ -275,7 +289,6 @@ const App = {
 
       const data = await API.fetchWeatherByCity(city);
 
-      // 사용자가 검색한 원본 도시명과 API 도시명을 분리
       State.lastCity = data.current.name;
       this.saveRecent(city);
 
@@ -313,4 +326,5 @@ const App = {
   }
 };
 
-App.init();
+document.addEventListener('DOMContentLoaded', () => App.init());
+// App.init()은 DOMContentLoaded 후 실행됩니다
