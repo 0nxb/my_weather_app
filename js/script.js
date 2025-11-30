@@ -179,17 +179,15 @@ const UI = {
   },
 
   renderRecentSearches() {
-    DOM.recentContainer.innerHTML = '';
+  DOM.recentContainer.innerHTML = '';
 
-    if (State.recentCities.length > 0) {
-      const title = document.createElement('div');
-      title.textContent = '최근 검색어';
-      title.style.cssText = 'font-size: 0.8rem; color: #888; margin: 5px 10px;';
-      DOM.recentContainer.appendChild(title);
-      //DOM.recentContainer.classList.remove('hidden');
-    } else {
-      DOM.recentContainer.classList.add('hidden');
-    }
+  if (State.recentCities.length > 0) {
+    const title = document.createElement('div');
+    title.textContent = '최근 검색어';
+    title.style.cssText = 'font-size: 0.8rem; color: #888; margin: 5px 10px;';
+    DOM.recentContainer.appendChild(title);
+    
+    // DOM.recentContainer.classList.remove('hidden'); 
 
     State.recentCities.forEach(city => {
       const btn = document.createElement('button');
@@ -201,8 +199,11 @@ const UI = {
       });
       DOM.recentContainer.appendChild(btn);
     });
+  } else {
+    // 목록이 비어 있을 때만 숨김
+    DOM.recentContainer.classList.add('hidden');
   }
-};
+}
 
 // 6. APP
 const App = {
