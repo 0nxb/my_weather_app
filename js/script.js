@@ -134,7 +134,9 @@ const UI = {
     const now = new Date();
     DOM.date.textContent = `${now.getMonth() + 1}월 ${now.getDate()}일 (${now.toLocaleDateString('ko-KR', { weekday: 'short' })})`;
 
-    DOM.cityName.textContent = name;
+    const displayName = State.lastCity.charAt(0).toUpperCase() + State.lastCity.slice(1).toLowerCase();
+    DOM.cityName.textContent = displayName;
+    // DOM.cityName.textContent = name;
     DOM.temp.textContent = `${main.temp.toFixed(1)}°`;
     DOM.icon.src = Utils.getIcon(weather[0].icon);
 
@@ -289,7 +291,7 @@ const App = {
 
       const data = await API.fetchWeatherByCity(city);
 
-      State.lastCity = data.current.name;
+      State.lastCity = city;
       this.saveRecent(city);
 
       UI.renderCurrent(data.current);
