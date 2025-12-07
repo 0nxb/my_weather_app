@@ -264,22 +264,22 @@ h1 {
 @media (min-width: 768px) {
   header {
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    gap: 40px;
   }
 
   .header-right {
-    align-items: flex-start;
+    display: flex;
+    align-items: flex-end;
     width: auto;
   }
 
   .search-box {
-    width: 350px;
+    width: auto;
     margin-bottom: 0;
   }
   
   .recent-searches {
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 }
