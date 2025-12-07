@@ -136,7 +136,7 @@ const UI = {
 
     const displayName = State.lastCity.charAt(0).toUpperCase() + State.lastCity.slice(1).toLowerCase();
     DOM.cityName.textContent = displayName;
-    // DOM.cityName.textContent = name;
+
     DOM.temp.textContent = `${main.temp.toFixed(1)}°`;
     DOM.icon.src = Utils.getIcon(weather[0].icon);
 
@@ -147,7 +147,6 @@ const UI = {
     DOM.humidity.textContent = main.humidity;
     DOM.wind.textContent = wind.speed;
 
-    // windUnit이 누락되어 있었는데, DOM.wind.nextSibling으로 대체합니다.
     DOM.unitBtn.textContent = State.unit === 'metric' ? '°C' : '°F';
     DOM.wind.nextSibling.textContent = State.unit === 'metric' ? ' m/s' : ' mph';
 
